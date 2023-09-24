@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <title>FUZOLO</title>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>FUZOLO Login/Signup</h1>
+        <div class="Login-form">
+          <div class="login-form-img" >
+            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_gjmecwii.json" background="transparent"  speed="1"  style="width: 90%; " loop  autoplay></lottie-player>
+          </div>
+          <div class="contact-form-inputs">
+            <form method = "POST" action="{% url 'otp-verify' %}">
+                {% csrf_token %}
+                <div>
+                    <label for="otp">Enter OTP</label>
+                    <input type="number" name="otp">
+                </div>
+                <div>
+                    <button type="submit" class="start-now-btn">Verify</button>
+                </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+</body>
+</html>
+
+
+{% endblock content %}
+
+

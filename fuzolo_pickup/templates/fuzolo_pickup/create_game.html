@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h4>Create Pick Up Game</h4>
+<form action="{% url 'view-pickup' %}" method="POST">
+    {% csrf_token %}
+    Title : <input type="text" name = 'title' value=""> <br>
+    Date : <input type="date" name = 'date' value=""> <br>
+    Start Time : <input type="time" name = 'start_time' value=""> <br>
+    End Time : <input type="time" name = 'end_time' value=""> <br>
+    Max Players : <input type="number" name = 'max_players' value=""> <br>
+    Entry Fees(Players Based) : <input type="number" id = 'entry_fees' name = 'price_per_player' value="0"> <br>
+    Hourly Price(Duration Based) : <input type="number" id = 'hourly_price' name = 'hourly_price' value="0"> <br>
+    <button type="submit" id = 'submitButton' disabled>Submit</button>
+</form>
+
+<script>
+    const field1 = document.getElementById('entry_fees');
+    const field2 = document.getElementById('hourly_price');
+    const submitButton = document.getElementById('submitButton');
+
+    function checkFields() {
+        if (field1.value.trim() !== '' || field2.value.trim() !== ''){
+            console.log("Hello")
+            submitButton.disabled = false;
+        }
+        else{
+            console.log("Hello")
+            submitButton.disabled = true;
+        }
+    }
+
+    field1.addEventListener('input', checkFields);
+    field2.addEventListener('input', checkFields);
+</script>
+
+{% endblock content %}

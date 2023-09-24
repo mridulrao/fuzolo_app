@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <head>
+        <style>
+            .card {
+                width: 300px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 16px;
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                }
+        </style>
+    </head>
+
+    <h4>View Pick Up Games</h4>
+
+    {% if games %}
+        {% for game in games %}
+            <form action="{% url 'details-pickup' game.game_id %}" method="POST">
+                <div class="card">
+                    {% csrf_token %}
+                    Title : {{ game.title }} <br>
+                    Date : {{ game.date }} <br>
+                    Day : {{ game.day}} <br>
+                    Start Time : {{ game.start_time }} <br>
+                    End Time : {{ game.end_time }} <br>
+                    Max Players : {{ game.max_players }} <br>
+                    Joined Players : {{ game.joined_players }} <br>
+                    Entry Fees : {{ game.price_per_player }} <br>
+                    
+                    {% if user_details.logged_in %}
+                        {% if game.joined_players != game.max_players %}
+                            {% if user_details.user_points >= game.price_per_player %}  
+                                {% if user_details.user_phone_number in game.wallet_list|stringformat:"s" %}   
+                                    <button type="submit" id = "" name = '' disabled>Already Joined</button> 
+                                {% else %}     
+                                    <button type="submit" id = "join-button" name = 'join-game'>Join Game</button>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'profile' %}">
+                                    <button type="button" id = 'add-points' name = "add-points">Add Points to join</button>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <button type="submit" id = 'join-waitlist' name = "join-waitlist">Join Waitlist</button>
+                        {% endif %}
+
+
+                        {% if user_details.pickup_manager %}
+                            <button type="submit" id="view-details" name = "view-details">View Details</button>
+                            <button type="submit" id="delete-game" name = "delete-game">Delete Game</button>
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{% url 'mobile-login' %}">
+                            <button type="button">Login To Join</button>
+                        </a>
+                    {% endif %}
+
+                  </div>
+            </form>
+        {% endfor %}
+    {% else %}
+        <h4>No upcoming Games</h4>
+    {% endif %}
+    
+    {% if user_details.pickup_manager %}
+        <a href="{% url 'create-pickup' %}">
+            <button>Create Pickup</button>
+        </a>
+    {% endif %}
+
+
+{% endblock content %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+    
+        th, td {
+          border: 1px solid black;
+          padding: 8px;
+          text-align: center;
+        }
+    
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+</head>
+
+<h2>Game Details</h2>
+{{ game_details.title }}
+
+<h2>Player Details</h2>
+<table>
+    <tr>
+        {% if user_details.pickup_manager %}
+        <th>Present</th>
+        <th>Remark</th>
+        <th>Manager Added</th>
+        <th>Time Stamp</th>
+        {% endif %}
+
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+    </tr>
+    {% for player in game_players %}
+    <form action="" method="POST">
+        <tr>
+            {% if user_details.pickup_manager %}
+                <td><input type="checkbox"></td>
+                <td><input type="text" value="{{ player.remark }}"></td>
+                <td>{{ player.manager_added }}</td>
+                <td>{{ player.present_timestamp }}</td>
+                <td>{{ player.email }}</td>
+            {% endif %}
+
+            <td>{{ player.name }}</td>
+            <td>{{ player.mobile }}</td>
+          </tr>
+    </form>
+    {% endfor %}
+  </table>
+
+
+  <h5>To opt out of the game, reach out on Whatsapp</h5>
+
+{% endblock content %}
