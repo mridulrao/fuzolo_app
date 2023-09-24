@@ -9,7 +9,7 @@ def send_otp(request, phone_number):
     otp = str(random.randint(100000, 999999))
     request.session['mobile-otp'] = otp
     request.session['phone-number'] = phone_number
-    print(otp)
+    #print(otp)
     details = {
         'text1' : 'Login OTP',
         'otp' : otp,
@@ -18,7 +18,7 @@ def send_otp(request, phone_number):
     }
 
     whatsapp_otp(details)
-    send_otp_via_message(details)
+    #send_otp_via_message(details)
 
 def verify_otp(request, entered_otp):
     generated_otp = request.session.get('mobile-otp')
