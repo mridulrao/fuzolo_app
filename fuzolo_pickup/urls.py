@@ -31,7 +31,7 @@ urlpatterns = [
     path('accounts/', include('users.urls')),
 
     #fuzolo_pickup views
-    path('view_pickup/', view_pickup, name = 'view-pickup'),
+    path('', view_pickup, name = 'view-pickup'),
     path('creat_pickup/', create_pickup, name = 'create-pickup'),
     path('details_pickup/<game_id>/', details_pickup, name = 'details-pickup'),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

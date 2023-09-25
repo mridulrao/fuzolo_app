@@ -60,3 +60,6 @@ def details_pickup(request, game_id):
             print("Join Waitlist")
 
     return render(request, 'fuzolo_pickup/details_game.html', {'game_details' : game_details, 'game_players' : game_players, 'user_details' : user_details})
+
+
+

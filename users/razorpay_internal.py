@@ -1,6 +1,8 @@
 import razorpay
 
-client = razorpay.Client(auth=("rzp_test_MUFWJzfALmtlEZ", "2InpKrmuuTFeCxYzlAfRU9Np"))
+from fuzolo_pickup.settings import RZP_ACCOUNT_ID, RZP_KEY
+
+client = razorpay.Client(auth=(RZP_ACCOUNT_ID, RZP_KEY))
 
 def get_payment_details(amount):
     amount = int(amount + "00")

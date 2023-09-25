@@ -12,22 +12,26 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+config_path = os.path.join(BASE_DIR, 'fuzolo_pickup/variables_config.json')
 
+with open(config_path) as config_file:
+    config = json.load(config_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-96zr7y)%5daqc5%(wz7jj&u8ey+6m+2po+s+vlrr#9*6*8w85&'
+SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.105.58.248', 'www.fuzolo.in', 'fuzolo.in']
-
+#ALLOWED_HOSTS = ['172.105.58.248', 'www.fuzolo.in', 'fuzolo.in']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -168,3 +172,14 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 #CELERY BEAT SETTING
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+#Environment Variables
+TWILIO_ACCOUNT_SID = config["TWILIO_ACCOUNT_SID"]
+TWILIO_AUTH_TOKEN = config["TWILIO_AUTH_TOKEN"]
+TWILIO_COUNTRY_CODE = config["TWILIO_COUNTRY_CODE"]
+TWILIO_WHATSAPP_NUMBER = config["TWILIO_WHATSAPP_NUMBER"]
+TWILIO_PHONE_NUMBER = config["TWILIO_PHONE_NUMBER"]
+RZP_ACCOUNT_ID = config["RZP_ACCOUNT_ID"]
+RZP_KEY = config["RZP_KEY"]
+WHASTSAPP_KEY = config["WHASTSAPP_KEY"]

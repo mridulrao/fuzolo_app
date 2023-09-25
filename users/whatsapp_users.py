@@ -1,11 +1,12 @@
 import requests
 import json
+from fuzolo_pickup.settings import WHASTSAPP_KEY 
 
 
 def whatsapp_otp(details):
     url = "https://api.interakt.ai/v1/public/message/"
     headers = {
-        "Authorization": "Basic ZUczMmRPb3hmakg3QUNTT0lzcTdweWRyYjlqSWdTOVE2SU1uY0JsdGd0azo=",
+        "Authorization": WHASTSAPP_KEY,
         "Content-Type": "application/json"
     }
 
