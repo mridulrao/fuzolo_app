@@ -31,7 +31,7 @@ SECRET_KEY = config['SECRET_KEY']
 DEBUG = True
 
 #ALLOWED_HOSTS = ['172.105.58.248', 'www.fuzolo.in', 'fuzolo.in']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [config['IP_ADDRESS'], 'fuzolo.in', 'www.fuzolo.in', 'localhost']
 
 # Application definition
 
