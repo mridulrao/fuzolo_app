@@ -29,6 +29,7 @@
         var name = '{{ user_details.name }}'
         var phone_no = '{{ user_details.phone_no }}'
         var email = '{{ user_details.email }}'
+        var redirect_url = '{{ redirect_url }}'
 
         var options = {
             "key": "rzp_test_MUFWJzfALmtlEZ", // Enter the Key ID generated from the Dashboard
@@ -38,7 +39,7 @@
             "description": "Test Transaction",
             "image": "",
             "order_id": order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "callback_url": "http://localhost:8000/accounts/verify_payment/",
+            "callback_url": redirect_url,
             "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
                 "name": name, //your customer's name
                 "email": email,

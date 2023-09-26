@@ -1,4 +1,5 @@
 from cmath import nan
+from fuzolo_pickup.settings import RZP_REDIRECT
 from users.models import FuzoloUser, FuzoloUserDetails
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -57,7 +58,7 @@ def add_points(request):
         if '200' in request.POST:
             user_details = get_user_details(request.user)
             payment_details = get_payment_details('200')
-            return render(request, 'users/add_points.html', {'user_details' : user_details, 'payment_details' : payment_details})
+            return render(request, 'users/add_points.html', {'user_details' : user_details, 'payment_details' : payment_details, 'redirect_url' : RZP_REDIRECT})
 
     return render(request, 'users/add_points.html')
 
