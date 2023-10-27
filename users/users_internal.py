@@ -3,7 +3,8 @@ from sndhdr import what
 from users.models import FuzoloUser, FuzoloUserDetails
 
 from .whatsapp_users import whatsapp_otp
-from .twilio_internal import send_otp_via_message
+#from .twilio_internal import send_otp_via_message
+
 
 def send_otp(request, phone_number):
     otp = str(random.randint(100000, 999999))
@@ -61,3 +62,12 @@ def get_user_details(user):
 
     return user_details_dict
 
+def add_points_to_user(user, points):
+    user = FuzoloUser.objects.get(phone_number = user)
+    user_details = FuzoloUserDetails.objects.get(phone_number = user)
+    try:
+        user_details.points += int(points)
+        user_details.save()
+        print("Points added")
+    except:
+        print("User points cannot be updated")

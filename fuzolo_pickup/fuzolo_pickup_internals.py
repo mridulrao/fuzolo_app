@@ -1,10 +1,11 @@
+import email
 from time import time
 from users.models import FuzoloUserDetails, FuzoloUser
 from datetime import datetime, timedelta
 from django.utils.crypto import get_random_string
 import math
 
-from .models import Pickup
+from .models import Pickup, PickupPlayers
 from datetime import datetime, timedelta
 
 #celery task 
@@ -204,6 +205,14 @@ def get_schedule_time(start_time, start_date):
 
     return hours, minutes
 
+def check_confirm_game(game_id):
+    game = Pickup.objects.get(game_id = game_id)
+    if game.joined_players == game.max_players:
+        print("Game confirm")
+    else:
+        print("Game Not confirm, need action")
+    return True
+
 def schedule_confirm_game(game_details):
     start_time = game_details['start_time']
     start_date = game_details['date']
@@ -212,8 +221,20 @@ def schedule_confirm_game(game_details):
     print('Schedule Confirm in ')
     print(str(hours)+ ' hours')
     print(str(minutes) + ' minutes')
-    task = check_confirm_game.apply_async(args = [game_id], countdown = 5)
+    task = check_confirm_game(game_id)
     return task
+
+def deduct_points(game_players, game):
+    game_points = game.price_per_player
+
+    for player in game_players:
+        player_details = FuzoloUserDetails.objects.get(email = player.email)
+        player_details.points -= game_points
+        player_details.save()
+
+
+
+
 
 
 

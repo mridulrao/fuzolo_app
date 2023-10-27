@@ -16,6 +16,7 @@ class Pickup(models.Model):
     waiting_list = models.CharField(max_length = 200)
     wallet_list = models.CharField(max_length = 200)
     venue = models.CharField(max_length = 200)
+    confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.game_id

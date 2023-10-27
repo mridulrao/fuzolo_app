@@ -4,6 +4,9 @@ from django.contrib.auth import authenticate, login
 
 from .fuzolo_pickup_internals import save_user_details, get_user_details, update_wallet_list
 from .fuzolo_pickup_internals import get_game_details, create_game, schedule_confirm_game
+from .fuzolo_pickup_internals import deduct_points
+
+from .whatsapp_pickup import notify_manager, notify_players
 
 from .models import Pickup, PickupPlayers
 from users.models import FuzoloUser, FuzoloUserDetails
@@ -33,6 +36,8 @@ def view_pickup(request):
 def create_pickup(request):
     return render(request, 'fuzolo_pickup/create_game.html')
 
+
+
 def details_pickup(request, game_id):
     game_details = Pickup.objects.get(game_id = game_id)
     game_players = PickupPlayers.objects.filter(game_id = game_id)
@@ -53,8 +58,22 @@ def details_pickup(request, game_id):
             game_details.joined_players += 1
             game_details.save()
 
+            if game_details.joined_players == game_details.max_players:
+                print("Notifying Manager")
+                notify_manager()
+
         if 'delete-game' in request.POST:
-            print("Delete Game")
+            game_id = request.POST['delete-game']
+            try:
+                game = Pickup.objects.get(game_id = game_id)
+                game.delete()
+                players  = PickupPlayers.objects.filter(game_id = game_id)
+                for player in players:
+                    player.delete()
+                
+                return redirect('view-pickup')
+            except:
+                print("Game cannot be deleted or already deleted")
 
         if 'join-waitlist' in request.POST:
             print("Join Waitlist")
@@ -62,4 +81,13 @@ def details_pickup(request, game_id):
     return render(request, 'fuzolo_pickup/details_game.html', {'game_details' : game_details, 'game_players' : game_players, 'user_details' : user_details})
 
 
+def confirm_pickup(request, game_id):
+    game = Pickup.objects.get(game_id = game_id)
+    game.confirmed = True
+    game.save()
 
+    game_players = PickupPlayers.objects.filter(game_id = game_id)
+    deduct_points(game_players, game)
+    notify_players(game_players, game)
+
+    return render(request, 'fuzolo_pickup/confirm_pickup.html')

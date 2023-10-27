@@ -57,6 +57,15 @@
     {% endfor %}
   </table>
 
+    {% if user_details.pickup_manager %}
+        {% if game_details.confirmed %}
+          <button type="submit" id="view-details" name = "confirm-game" disabled>Game Confirmed</button>
+        {% else %}
+          <a href="{% url 'confirm-pickup' game_details.game_id %}">
+            <button type="submit" id="view-details" name = "confirm-game">Confirm</button>
+          </a>
+        {% endif %}
+  {% endif %}
 
   <h5>To opt out of the game, reach out on Whatsapp</h5>
 

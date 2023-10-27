@@ -10,7 +10,8 @@ from .razorpay_internal import get_payment_details, verify_payment_status
 from django.views.decorators.csrf import csrf_exempt
 
 #celery_task
-from fuzolo_pickup.task import add_points_to_user
+#from fuzolo_pickup.task import add_points_to_user
+from .users_internal import add_points_to_user
 
 def mobile_login(request):
     if request.method == 'POST':
@@ -71,12 +72,14 @@ def verify_payment(request):
             'signature' : request.POST['razorpay_signature']
         }
         flag = verify_payment_status(payment_details)
+
         if flag:
             user = str(FuzoloUserDetails.objects.get(phone_number = request.user).phone_number)
             points = 200
-            add_points_to_user.apply_async(args = [user, points])
-            logout(request)
-            return redirect('verify-payment')
+            add_points_to_user(user, points)
+            #add_points_to_user.apply_async(args = [user, points])
+            #logout(request)
+            return redirect('profile')
         else:
             print("Payment Verification Failed")
     

@@ -22,7 +22,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import view_pickup, create_pickup, details_pickup
+from .views import confirm_pickup, view_pickup, create_pickup, details_pickup, confirm_pickup
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,6 @@ urlpatterns = [
     #fuzolo_pickup views
     path('', view_pickup, name = 'view-pickup'),
     path('creat_pickup/', create_pickup, name = 'create-pickup'),
+    path('confirm_pickup/<game_id>/', confirm_pickup, name = 'confirm-pickup'),
     path('details_pickup/<game_id>/', details_pickup, name = 'details-pickup'),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

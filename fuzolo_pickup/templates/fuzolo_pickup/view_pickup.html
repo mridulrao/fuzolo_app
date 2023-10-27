@@ -51,7 +51,7 @@
 
                         {% if user_details.pickup_manager %}
                             <button type="submit" id="view-details" name = "view-details">View Details</button>
-                            <button type="submit" id="delete-game" name = "delete-game">Delete Game</button>
+                            <button type="submit" id="delete-game" name = "delete-game" value="{{ game.game_id }}">Delete Game</button>
                         {% endif %}
 
                     {% else %}
