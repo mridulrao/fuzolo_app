@@ -2,7 +2,7 @@ from unicodedata import name
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from .views import mobile_login, otp_verify, profile, add_points, verify_payment
+from .views import mobile_login, otp_verify, profile, add_points, verify_payment, custom_plans
 
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     path('verify_otp/', otp_verify, name = 'otp-verify'),
     path('profile/', profile, name = 'profile'),
     path('add_points/', add_points, name = 'add-points'),
+    path('custom-plans/', custom_plans, name = 'custom-plans'),
     path('verify_payment/', verify_payment, name = 'verify-payment')
 ]

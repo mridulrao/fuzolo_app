@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .users_internal import send_otp, verify_otp, create_user, check_profile, get_user_details
-from .razorpay_internal import get_payment_details, verify_payment_status
+from .razorpay_internal import get_payment_details, verify_payment_status, user_rzp_transactions, verify_user_rzp_transactions
 from django.views.decorators.csrf import csrf_exempt
 
 #celery_task
@@ -49,19 +49,27 @@ def otp_verify(request):
 
 @login_required
 def profile(request):
-    user = get_user_details(request.user)
+    try:
+        user = get_user_details(request.user)
+    except:
+        return redirect('mobile-login')
     return render(request, 'users/profile.html', {'user_details' : user})
 
 
 @login_required
 def add_points(request):
     if request.method == 'POST':
-        if '200' in request.POST:
-            user_details = get_user_details(request.user)
-            payment_details = get_payment_details('200')
+        user_details = get_user_details(request.user)
+        if '300' in request.POST:
+            payment_details = get_payment_details('300')
+            user_rzp_transactions(user_details, payment_details, '300')           
+            return render(request, 'users/add_points.html', {'user_details' : user_details, 'payment_details' : payment_details, 'redirect_url' : RZP_REDIRECT})
+        elif 'basic-plan' in request.POST:
+            payment_details = get_payment_details('2850')
+            user_rzp_transactions(user_details, payment_details, '2850')
             return render(request, 'users/add_points.html', {'user_details' : user_details, 'payment_details' : payment_details, 'redirect_url' : RZP_REDIRECT})
 
-    return render(request, 'users/add_points.html')
+    return render(request, 'users/profile.html')
 
 @csrf_exempt
 def verify_payment(request):
@@ -71,11 +79,12 @@ def verify_payment(request):
             'order_id' : request.POST['razorpay_order_id'],
             'signature' : request.POST['razorpay_signature']
         }
-        flag = verify_payment_status(payment_details)
+        flag_rzp = verify_payment_status(payment_details)
+        flag_fuzolo, amount = verify_user_rzp_transactions(payment_details['order_id'])
 
-        if flag:
+        if flag_rzp and flag_fuzolo:
             user = str(FuzoloUserDetails.objects.get(phone_number = request.user).phone_number)
-            points = 200
+            points = int(amount)
             add_points_to_user(user, points)
             #add_points_to_user.apply_async(args = [user, points])
             #logout(request)
@@ -86,3 +95,5 @@ def verify_payment(request):
     return render(request, 'users/verify_payments.html')
 
 
+def custom_plans(request):
+    return render(request, 'users/custom_plans.html')

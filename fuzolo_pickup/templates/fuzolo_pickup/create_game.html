@@ -3,17 +3,39 @@
 
 {% block content %}
 
-<h4>Create Pick Up Game</h4>
+<h3>Create Pick Up Game</h3>
 <form action="{% url 'view-pickup' %}" method="POST">
     {% csrf_token %}
-    Title : <input type="text" name = 'title' value=""> <br>
-    Date : <input type="date" name = 'date' value=""> <br>
-    Start Time : <input type="time" name = 'start_time' value=""> <br>
-    End Time : <input type="time" name = 'end_time' value=""> <br>
-    Max Players : <input type="number" name = 'max_players' value=""> <br>
-    Entry Fees(Players Based) : <input type="number" id = 'entry_fees' name = 'price_per_player' value="0"> <br>
-    Hourly Price(Duration Based) : <input type="number" id = 'hourly_price' name = 'hourly_price' value="0"> <br>
-    <button type="submit" id = 'submitButton' disabled>Submit</button>
+    <div class="mb-3">
+        <label for="Title" class="form-label">Title</label>
+        <input type="text" name = 'title' class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="Date" class="form-label">Date</label>
+        <input type="date" name = 'date' class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="Start Time" class="form-label">Start Time</label>
+        <input type="time" name = 'start_time' class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="End Time" class="form-label">End Time</label>
+        <input type="time" name = 'end_time' class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="Max Players" class="form-label">Max Players</label>
+        <input type="number" name = 'max_players' class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="Entry Price" class="form-label">Entry Price(Player Based)</label>
+        <input type="number" name = 'price_per_player' id="entry_fees" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="Hourly Price" class="form-label">Hourly Price(Player Based)</label>
+        <input type="number" name = 'hourly_price' id="hourly_price" class="form-control">
+    </div>
+
+    <button type="submit" id = 'submitButton' class="btn btn-success" disabled>Submit</button>
 </form>
 
 <script>

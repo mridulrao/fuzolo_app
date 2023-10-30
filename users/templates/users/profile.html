@@ -28,19 +28,27 @@
             </div>
 
             <div class="profile-page-inputs number-display">
-                <p>Phone Number :</p>
+                <p>Mobile :</p>
                 <input type="text" value="{{ user_details.phone_number }}" disabled="disabled">
             </div>
 
             <div class="profile-page-inputs  points-display">
                 <p>Points :</p>
                 <input type="number" value="{{ user_details.points }}" disabled="disabled">
-                <form action="{% url 'add-points' %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" name="200">Add 200 Points</button>
-                </form> 
             </div>
+            <form action="{% url 'add-points' %}" method="POST">
+                {% csrf_token %}
+                <p>Add Points</p>
+                <button type="submit" name="300">300 Points</button>
+            </form> 
+            <a href="{% url 'custom-plans' %}">
+                <button type="submit" name="custom" >View Other Plans</button>
+            </a>
         </div>
+
+        <a href="{% url 'logout' %}">
+            <button type="submit">Logout</button>
+        </a>
 
     </div>
 </body>

@@ -40,3 +40,23 @@ class FuzoloUserDetails(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserAddPoints(models.Model):
+    #user_details
+    name = models.CharField(max_length = 255)
+    email = models.CharField(max_length=255)
+    phone_number = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    #points_details
+    points = models.IntegerField(default=0)
+    amount = models.IntegerField(default=0)
+    razorpay_id = models.CharField(max_length=255)
+    date = models.DateField(default=timezone.now)
+    comment = models.CharField(max_length=255, default="")
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.razorpay_id
+
+

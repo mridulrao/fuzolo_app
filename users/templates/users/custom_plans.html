@@ -1,0 +1,32 @@
+{% extends "users/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <head>
+        <style>
+            .card {
+                width: 300px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 16px;
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                }
+        </style>
+    </head>
+
+    <h4>View Plans</h4>
+
+    <div class="card">
+        Basic Plan <br>
+        Get : 3000 Points <br>
+        Pay : Rs.2850 <br>
+        <form action="{% url 'add-points' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="basic-plan">Buy</button>
+        </form>
+    </div>
+                    
+
+
+{% endblock content %}
